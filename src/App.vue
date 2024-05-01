@@ -1,11 +1,18 @@
 <script setup lang="ts">
-import { Button } from "@/components/ui/button";
+import FormLibrary from "./components/FormLibrary/FormLibrary.vue";
 import Layout from "./components/Layout/Layout.vue";
+import Header from "./components/Header/Header.vue";
+import Info from "./components/Info/Info.vue";
+import ModalCard from "./components/ModalCard/ModalCard.vue";
 </script>
 
 <template>
   <Layout>
-    <h2 class="text-2xl">Hola <span class="text-primary">mundo</span></h2>
-    <Button>Click me</Button>
+    <Header />
+    <section class="grid gap-4 md:grid-cols-2 mt-10">
+      <FormLibrary class="md:col-span-1" />
+      <Info class="md:col-span-1" />
+    </section>
   </Layout>
+  <ModalCard />
 </template>
