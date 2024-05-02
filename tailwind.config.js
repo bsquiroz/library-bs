@@ -1,4 +1,5 @@
 const animate = require("tailwindcss-animate");
+const { scrollbarCustom } = require("./src/lib/scrollbar-lib");
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -89,29 +90,5 @@ module.exports = {
       },
     },
   },
-  plugins: [
-    animate,
-    function ({ addUtilities }) {
-      const newUtilities = {
-        ".scrollbar-thin": {
-          scrollbarWidth: "thin",
-          scrollbarColor: "hsl(var(--primary)) hsl(var(--background))",
-        },
-        ".scrollbar-webkit": {
-          "&::-webkit-scrollbar": {
-            width: "8px",
-          },
-          "&::-webkit-scrollbar-track": {
-            background: "hsl(var(--background))",
-          },
-          "&::-webkit-scrollbar-thumb": {
-            backgroundColor: "hsl(var(--primary))",
-            borderRadius: "20px",
-          },
-        },
-      };
-
-      addUtilities(newUtilities, "responsive", "hover");
-    },
-  ],
+  plugins: [animate, scrollbarCustom],
 };
