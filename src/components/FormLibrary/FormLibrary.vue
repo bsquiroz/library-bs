@@ -16,16 +16,10 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 import { Button } from "@/components/ui/button";
 
-import { type Ref, ref } from "vue";
-
-import {
-  type DateValue,
-  getLocalTimeZone,
-  today,
-} from "@internationalized/date";
 import { Calendar } from "@/components/ui/calendar";
+import { useLibraryStore } from "@/composables/useLibraryStore";
 
-const value = ref(today(getLocalTimeZone())) as Ref<DateValue>;
+const { loanBook } = useLibraryStore();
 </script>
 
 <template>
@@ -33,19 +27,33 @@ const value = ref(today(getLocalTimeZone())) as Ref<DateValue>;
     <h2 class="text-xl font-bold text-center">Registro de prestamo</h2>
 
     <div class="flex flex-col gap-4">
-      <Label for="text">Nombre</Label>
-      <Input type="text" placeholder="Nombre de la persona" />
+      <Label for="text"
+        >Nombre: <span>{{ loanBook.name }}</span></Label
+      >
+      <Input
+        type="text"
+        placeholder="Nombre de la persona"
+        v-model="loanBook.name"
+      />
     </div>
 
     <div class="flex flex-col gap-4">
-      <Label for="id">Numero de identidad</Label>
-      <Input type="number" placeholder="Nombre de la persona" />
+      <Label for="id"
+        >Numero de identidad: <span>{{ loanBook.id }}</span></Label
+      >
+      <Input
+        type="number"
+        placeholder="Nombre de la persona"
+        v-model="loanBook.id"
+      />
     </div>
 
     <div class="flex flex-col gap-4">
-      <Label for="book">Cual libro?</Label>
+      <Label for="book"
+        >Cual libro?: <span>{{ loanBook.book }}</span></Label
+      >
 
-      <Select>
+      <Select v-model="loanBook.book">
         <SelectTrigger class="w-[180px]">
           <SelectValue placeholder="Libros disponibles" />
         </SelectTrigger>
@@ -61,28 +69,36 @@ const value = ref(today(getLocalTimeZone())) as Ref<DateValue>;
 
     <div class="flex flex-col gap-4">
       <Label for="book"
-        >En caso de requerirlo donde lo podemos encontrar?</Label
+        >En caso de requerirlo donde lo podemos encontrar?:
+        {{ loanBook.contact }}</Label
       >
 
-      <RadioGroup default-value="comfortable">
+      <RadioGroup default-value="correo" v-model="loanBook.contact">
         <div class="flex items-center space-x-2">
-          <RadioGroupItem id="r1" value="default" />
+          <RadioGroupItem id="r1" value="correo" />
           <Label for="r1">Correo</Label>
         </div>
         <div class="flex items-center space-x-2">
-          <RadioGroupItem id="r2" value="comfortable" />
+          <RadioGroupItem id="r2" value="celular" />
           <Label for="r2">Celular</Label>
         </div>
       </RadioGroup>
 
-      <Input type="text" placeholder="..." />
+      <Input
+        v-if="loanBook.contact === 'correo'"
+        type="email"
+        placeholder="ej: example@correo.com"
+      />
+      <Input v-else type="tel" placeholder="ej: 313 612 6745" />
     </div>
 
     <div class="flex flex-col gap-4">
-      <Label for="id">Fecha tentativa de entrega</Label>
+      <Label for="id"
+        >Fecha tentativa de entrega: <span>{{ loanBook.deadline }}</span></Label
+      >
 
       <Calendar
-        v-model="value"
+        v-model="loanBook.deadline as any"
         :weekday-format="'short'"
         class="rounded-md border self-start"
       />
