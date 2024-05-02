@@ -30,7 +30,16 @@ const { isShowModalCard, handleShowModalCard } = useLibraryStore();
             <Badge class="bg-red-500">Sin entregar</Badge>
           </p>
         </CardContent>
-        <Button @click="() => handleShowModalCard(false)">Volver</Button>
+
+        <div class="flex gap-4 flex-wrap">
+          <Button class="flex-1" variant="outline"
+            >Marcar como entregado</Button
+          >
+          <Button class="flex-1" variant="secondary">Mover a historial</Button>
+          <Button class="flex-1" @click="() => handleShowModalCard(false)"
+            >Volver</Button
+          >
+        </div>
       </Card>
     </section>
   </Transition>

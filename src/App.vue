@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+
 import FormLibrary from "./components/FormLibrary/FormLibrary.vue";
 import Layout from "./components/Layout/Layout.vue";
 import Header from "./components/Header/Header.vue";
@@ -9,10 +11,20 @@ import ModalCard from "./components/ModalCard/ModalCard.vue";
 <template>
   <Layout>
     <Header />
-    <section class="grid gap-4 md:grid-cols-2 mt-10">
-      <FormLibrary class="md:col-span-1" />
-      <Info class="md:col-span-1" />
-    </section>
+    <Tabs default-value="form" class="max-w-2xl m-auto mt-10">
+      <TabsList class="w-full flex">
+        <TabsTrigger class="flex-1" value="form"> Form prestamos </TabsTrigger>
+        <TabsTrigger class="flex-1" value="info">
+          Información prestamos
+        </TabsTrigger>
+      </TabsList>
+      <TabsContent value="form">
+        <FormLibrary />
+      </TabsContent>
+      <TabsContent value="info">
+        <Info />
+      </TabsContent>
+    </Tabs>
   </Layout>
   <ModalCard />
 </template>
