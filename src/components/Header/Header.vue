@@ -37,7 +37,7 @@ import { Input } from "@/components/ui/input";
           <i class="bx bx-history text-primary text-2xl cursor-pointer"></i>
         </Button>
       </DrawerTrigger>
-      <DrawerContent>
+      <DrawerContent class="p-4">
         <div class="mx-auto w-full max-w-2xl">
           <DrawerHeader>
             <DrawerTitle class="text-center">Historial</DrawerTitle>
