@@ -1,25 +1,56 @@
-import { ref, reactive } from "vue";
+import { ref, reactive, watch } from "vue";
+
+interface LoanBook {
+  name: string;
+  id: string;
+  book: string;
+  typeContact: string;
+  contact: string;
+  deadline: string;
+  state: boolean;
+}
 
 const isShowModalCard = ref(false);
 
-const loanBook = reactive({
+const loanBooks = ref<LoanBook[]>(
+  JSON.parse(localStorage.getItem("loanBooks")!) || []
+);
+
+const loanBook = reactive<LoanBook>({
   name: "",
-  id: 0,
+  id: "",
   book: "",
+  typeContact: "",
   contact: "",
   deadline: "",
+  state: false,
 });
 
 export const useLibraryStore = () => {
   const handleShowModalCard = (value: boolean) => {
-    console.log(value);
-
     isShowModalCard.value = value;
   };
+
+  const handleSaveLoanBook = () => {
+    loanBooks.value.push({ ...loanBook });
+
+    loanBook.book = "";
+    loanBook.contact = "";
+    loanBook.deadline = "";
+    loanBook.id = "";
+    loanBook.name = "";
+    loanBook.typeContact = "";
+  };
+
+  watch(loanBooks.value, () => {
+    localStorage.setItem("loanBooks", JSON.stringify(loanBooks.value));
+  });
 
   return {
     isShowModalCard,
     handleShowModalCard,
     loanBook,
+    loanBooks,
+    handleSaveLoanBook,
   };
 };

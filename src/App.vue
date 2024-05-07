@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Toaster } from "@/components/ui/sonner";
 
 import FormLibrary from "./components/FormLibrary/FormLibrary.vue";
 import Layout from "./components/Layout/Layout.vue";
@@ -27,4 +28,5 @@ import ModalCard from "./components/ModalCard/ModalCard.vue";
     </Tabs>
   </Layout>
   <ModalCard />
+  <Toaster richColor />
 </template>

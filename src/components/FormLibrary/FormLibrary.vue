@@ -17,13 +17,30 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Button } from "@/components/ui/button";
 
 import { Calendar } from "@/components/ui/calendar";
+
+import { toast } from "vue-sonner";
+
 import { useLibraryStore } from "@/composables/useLibraryStore";
 
-const { loanBook } = useLibraryStore();
+const { loanBook, handleSaveLoanBook } = useLibraryStore();
+
+const handleSubmit = () => {
+  const fieldsEmpty = Object.entries(loanBook)
+    .filter((value) => !["state"].includes(value[0]))
+    .some((v) => !v[1]);
+
+  if (fieldsEmpty) return toast.error("Todos los campos son necesarios!!");
+
+  handleSaveLoanBook();
+
+  return toast.success(
+    "Prestamo agregado con exito, miralo en la informacion de prestamos!!"
+  );
+};
 </script>
 
 <template>
-  <form class="flex flex-col gap-4">
+  <form class="flex flex-col gap-4" @submit.prevent="handleSubmit">
     <h2 class="text-xl font-bold text-center">Registro de prestamo</h2>
 
     <div class="flex flex-col gap-4">
@@ -70,10 +87,10 @@ const { loanBook } = useLibraryStore();
     <div class="flex flex-col gap-4">
       <Label for="book"
         >En caso de requerirlo donde lo podemos encontrar?:
-        {{ loanBook.contact }}</Label
+        {{ loanBook.typeContact }} {{ loanBook.contact }}</Label
       >
 
-      <RadioGroup default-value="correo" v-model="loanBook.contact">
+      <RadioGroup default-value="correo" v-model="loanBook.typeContact">
         <div class="flex items-center space-x-2">
           <RadioGroupItem id="r1" value="correo" />
           <Label for="r1">Correo</Label>
@@ -88,8 +105,14 @@ const { loanBook } = useLibraryStore();
         v-if="loanBook.contact === 'correo'"
         type="email"
         placeholder="ej: example@correo.com"
+        v-model="loanBook.contact"
       />
-      <Input v-else type="tel" placeholder="ej: 313 612 6745" />
+      <Input
+        v-else
+        type="tel"
+        placeholder="ej: 313 612 6745"
+        v-model="loanBook.contact"
+      />
     </div>
 
     <div class="flex flex-col gap-4">

@@ -16,7 +16,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { useLibraryStore } from "@/composables/useLibraryStore";
 
-const { handleShowModalCard } = useLibraryStore();
+const { handleShowModalCard, loanBooks } = useLibraryStore();
 </script>
 
 <template>
@@ -38,26 +38,12 @@ const { handleShowModalCard } = useLibraryStore();
         </TableRow>
       </TableHeader>
       <TableBody>
-        <TableRow>
-          <TableCell> Libro 1 </TableCell>
-          <TableCell>1001</TableCell>
+        <TableRow v-for="loanBook in loanBooks" :key="loanBook.id">
+          <TableCell> {{ loanBook.name }} </TableCell>
+          <TableCell>{{ loanBook.id }}</TableCell>
           <TableCell>
-            <Badge class="bg-red-500">Sin entregar</Badge>
-          </TableCell>
-          <TableCell class="text-center">
-            <Button
-              variant="secondary"
-              v-on:click="() => handleShowModalCard(true)"
-              >Ver detalles</Button
-            >
-          </TableCell>
-        </TableRow>
-
-        <TableRow>
-          <TableCell> Libro 2 </TableCell>
-          <TableCell>1002</TableCell>
-          <TableCell>
-            <Badge class="bg-green-500">Entregado</Badge>
+            <Badge v-if="loanBook.state" class="bg-green-500">Entregado</Badge>
+            <Badge v-else class="bg-red-500">Sin entregar</Badge>
           </TableCell>
           <TableCell class="text-center">
             <Button
