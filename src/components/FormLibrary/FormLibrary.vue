@@ -26,7 +26,7 @@ const { loanBook, handleSaveLoanBook } = useLibraryStore();
 
 const handleSubmit = () => {
   const fieldsEmpty = Object.entries(loanBook)
-    .filter((value) => !["state"].includes(value[0]))
+    .filter((value) => !["state", "history"].includes(value[0]))
     .some((v) => !v[1]);
 
   if (fieldsEmpty) return toast.error("Todos los campos son necesarios!!");

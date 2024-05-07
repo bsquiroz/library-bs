@@ -23,6 +23,16 @@ import { Badge } from "@/components/ui/badge";
 
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
+import { computed } from "vue";
+import { useLibraryStore } from "@/composables/useLibraryStore";
+
+import { formatDate } from "@/helpers/formatDate";
+
+const { loanBooks } = useLibraryStore();
+
+const historyLoanBooks = computed(() =>
+  loanBooks.value.filter((loanbook) => loanbook.history)
+);
 </script>
 
 <template>
@@ -62,113 +72,20 @@ import { Input } from "@/components/ui/input";
               </TableHeader>
 
               <TableBody>
-                <TableRow>
-                  <TableCell> juan </TableCell>
-                  <TableCell>1001</TableCell>
-                  <TableCell> libro 1 </TableCell>
-                  <TableCell> 313.. </TableCell>
-                  <TableCell>01/01/01</TableCell>
+                <TableRow
+                  v-for="loanbook in historyLoanBooks"
+                  :key="loanbook.id"
+                >
+                  <TableCell> {{ loanbook.name }} </TableCell>
+                  <TableCell>{{ loanbook.id }}</TableCell>
+                  <TableCell> {{ loanbook.book }} </TableCell>
+                  <TableCell> {{ loanbook.contact }} </TableCell>
+                  <TableCell>{{ formatDate(loanbook.deadline) }}</TableCell>
                   <TableCell>
-                    <Badge class="bg-red-500">Sin entregar</Badge>
-                  </TableCell>
-                </TableRow>
-
-                <TableRow>
-                  <TableCell> pedro </TableCell>
-                  <TableCell>1002</TableCell>
-                  <TableCell> libro 2 </TableCell>
-                  <TableCell> 312.. </TableCell>
-                  <TableCell>02/01/01</TableCell>
-                  <TableCell>
-                    <Badge class="bg-green-500">Entregado</Badge>
-                  </TableCell>
-                </TableRow>
-
-                <TableRow>
-                  <TableCell> juan </TableCell>
-                  <TableCell>1001</TableCell>
-                  <TableCell> libro 1 </TableCell>
-                  <TableCell> 313.. </TableCell>
-                  <TableCell>01/01/01</TableCell>
-                  <TableCell>
-                    <Badge class="bg-red-500">Sin entregar</Badge>
-                  </TableCell>
-                </TableRow>
-
-                <TableRow>
-                  <TableCell> pedro </TableCell>
-                  <TableCell>1002</TableCell>
-                  <TableCell> libro 2 </TableCell>
-                  <TableCell> 312.. </TableCell>
-                  <TableCell>02/01/01</TableCell>
-                  <TableCell>
-                    <Badge class="bg-green-500">Entregado</Badge>
-                  </TableCell>
-                </TableRow>
-
-                <TableRow>
-                  <TableCell> juan </TableCell>
-                  <TableCell>1001</TableCell>
-                  <TableCell> libro 1 </TableCell>
-                  <TableCell> 313.. </TableCell>
-                  <TableCell>01/01/01</TableCell>
-                  <TableCell>
-                    <Badge class="bg-red-500">Sin entregar</Badge>
-                  </TableCell>
-                </TableRow>
-
-                <TableRow>
-                  <TableCell> pedro </TableCell>
-                  <TableCell>1002</TableCell>
-                  <TableCell> libro 2 </TableCell>
-                  <TableCell> 312.. </TableCell>
-                  <TableCell>02/01/01</TableCell>
-                  <TableCell>
-                    <Badge class="bg-green-500">Entregado</Badge>
-                  </TableCell>
-                </TableRow>
-
-                <TableRow>
-                  <TableCell> juan </TableCell>
-                  <TableCell>1001</TableCell>
-                  <TableCell> libro 1 </TableCell>
-                  <TableCell> 313.. </TableCell>
-                  <TableCell>01/01/01</TableCell>
-                  <TableCell>
-                    <Badge class="bg-red-500">Sin entregar</Badge>
-                  </TableCell>
-                </TableRow>
-
-                <TableRow>
-                  <TableCell> pedro </TableCell>
-                  <TableCell>1002</TableCell>
-                  <TableCell> libro 2 </TableCell>
-                  <TableCell> 312.. </TableCell>
-                  <TableCell>02/01/01</TableCell>
-                  <TableCell>
-                    <Badge class="bg-green-500">Entregado</Badge>
-                  </TableCell>
-                </TableRow>
-
-                <TableRow>
-                  <TableCell> juan </TableCell>
-                  <TableCell>1001</TableCell>
-                  <TableCell> libro 1 </TableCell>
-                  <TableCell> 313.. </TableCell>
-                  <TableCell>01/01/01</TableCell>
-                  <TableCell>
-                    <Badge class="bg-red-500">Sin entregar</Badge>
-                  </TableCell>
-                </TableRow>
-
-                <TableRow>
-                  <TableCell> pedro </TableCell>
-                  <TableCell>1002</TableCell>
-                  <TableCell> libro 2 </TableCell>
-                  <TableCell> 312.. </TableCell>
-                  <TableCell>02/01/01</TableCell>
-                  <TableCell>
-                    <Badge class="bg-green-500">Entregado</Badge>
+                    <Badge v-if="!loanbook.state" class="bg-red-500"
+                      >Sin entregar</Badge
+                    >
+                    <Badge v-else class="bg-green-500">Entregado</Badge>
                   </TableCell>
                 </TableRow>
               </TableBody>

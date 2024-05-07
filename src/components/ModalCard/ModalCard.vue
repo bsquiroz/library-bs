@@ -7,16 +7,15 @@ import { Badge } from "@/components/ui/badge";
 
 import { useLibraryStore } from "@/composables/useLibraryStore";
 
+import { formatDate } from "@/helpers/formatDate";
+
 const {
   isShowModalCard,
   handleShowModalCard,
   handleSelectLoanBook,
   selectLoanBook,
+  handleChangeLoanBookHistory,
 } = useLibraryStore();
-
-const formatDayline = (value: any) => {
-  return `${value.day}/${value.month}/${value.year}`;
-};
 </script>
 
 <template>
@@ -34,7 +33,7 @@ const formatDayline = (value: any) => {
           <p>Numero de identidad: {{ selectLoanBook?.id }}</p>
           <p>
             Fecha tentativa de entrega:
-            {{ formatDayline(selectLoanBook?.deadline) }}
+            {{ formatDate(selectLoanBook?.deadline) }}
           </p>
           <p>Informacion de contacto: {{ selectLoanBook?.contact }}</p>
           <p>
@@ -47,10 +46,18 @@ const formatDayline = (value: any) => {
         </CardContent>
 
         <div class="flex gap-4 flex-wrap">
-          <Button v-if="!selectLoanBook?.state" class="flex-1" variant="outline"
+          <Button
+            @click="handleChangeLoanBookHistory(selectLoanBook?.id, true)"
+            class="flex-1"
+            variant="outline"
             >Marcar como entregado</Button
           >
-          <Button class="flex-1" variant="secondary">Mover a historial</Button>
+          <Button
+            class="flex-1"
+            variant="secondary"
+            @click="handleChangeLoanBookHistory(selectLoanBook?.id)"
+            >Mover a historial</Button
+          >
           <Button
             class="flex-1"
             @click="
