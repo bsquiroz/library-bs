@@ -7,7 +7,16 @@ import { Badge } from "@/components/ui/badge";
 
 import { useLibraryStore } from "@/composables/useLibraryStore";
 
-const { isShowModalCard, handleShowModalCard } = useLibraryStore();
+const {
+  isShowModalCard,
+  handleShowModalCard,
+  handleSelectLoanBook,
+  selectLoanBook,
+} = useLibraryStore();
+
+const formatDayline = (value: any) => {
+  return `${value.day}/${value.month}/${value.year}`;
+};
 </script>
 
 <template>
@@ -18,25 +27,38 @@ const { isShowModalCard, handleShowModalCard } = useLibraryStore();
     >
       <Card class="flex flex-col p-4">
         <CardHeader>
-          <CardTitle>Libro 1</CardTitle>
+          <CardTitle>{{ selectLoanBook?.book }}</CardTitle>
         </CardHeader>
         <CardContent>
-          <p>Nombre: Persona 1</p>
-          <p>Numero de identidad: 1001</p>
-          <p>Fecha tentiva de entrega: 01/01/01</p>
-          <p>Informacion de contacto: 3136127830</p>
+          <p>Nombre: {{ selectLoanBook?.name }}</p>
+          <p>Numero de identidad: {{ selectLoanBook?.id }}</p>
+          <p>
+            Fecha tentativa de entrega:
+            {{ formatDayline(selectLoanBook?.deadline) }}
+          </p>
+          <p>Informacion de contacto: {{ selectLoanBook?.contact }}</p>
           <p>
             Estado del prestamo:
-            <Badge class="bg-red-500">Sin entregar</Badge>
+            <Badge v-if="!selectLoanBook?.state" class="bg-red-500"
+              >Sin entregar</Badge
+            >
+            <Badge v-else class="bg-green-500">Entregado</Badge>
           </p>
         </CardContent>
 
         <div class="flex gap-4 flex-wrap">
-          <Button class="flex-1" variant="outline"
+          <Button v-if="!selectLoanBook?.state" class="flex-1" variant="outline"
             >Marcar como entregado</Button
           >
           <Button class="flex-1" variant="secondary">Mover a historial</Button>
-          <Button class="flex-1" @click="() => handleShowModalCard(false)"
+          <Button
+            class="flex-1"
+            @click="
+              () => {
+                handleShowModalCard(false);
+                handleSelectLoanBook();
+              }
+            "
             >Volver</Button
           >
         </div>

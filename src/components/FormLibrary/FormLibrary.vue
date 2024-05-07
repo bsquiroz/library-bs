@@ -102,7 +102,7 @@ const handleSubmit = () => {
       </RadioGroup>
 
       <Input
-        v-if="loanBook.contact === 'correo'"
+        v-if="loanBook.typeContact === 'correo'"
         type="email"
         placeholder="ej: example@correo.com"
         v-model="loanBook.contact"

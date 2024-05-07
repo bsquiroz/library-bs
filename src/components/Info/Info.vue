@@ -16,7 +16,8 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { useLibraryStore } from "@/composables/useLibraryStore";
 
-const { handleShowModalCard, loanBooks } = useLibraryStore();
+const { handleSelectLoanBook, handleShowModalCard, loanBooks } =
+  useLibraryStore();
 </script>
 
 <template>
@@ -48,7 +49,12 @@ const { handleShowModalCard, loanBooks } = useLibraryStore();
           <TableCell class="text-center">
             <Button
               variant="secondary"
-              v-on:click="() => handleShowModalCard(true)"
+              v-on:click="
+                () => {
+                  handleSelectLoanBook(loanBook.id);
+                  handleShowModalCard(true);
+                }
+              "
               >Ver detalles</Button
             >
           </TableCell>

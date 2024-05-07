@@ -26,6 +26,8 @@ const loanBook = reactive<LoanBook>({
   state: false,
 });
 
+const selectLoanBook = ref<LoanBook>();
+
 export const useLibraryStore = () => {
   const handleShowModalCard = (value: boolean) => {
     isShowModalCard.value = value;
@@ -42,6 +44,16 @@ export const useLibraryStore = () => {
     loanBook.typeContact = "";
   };
 
+  const handleSelectLoanBook = (id?: string) => {
+    if (id) {
+      selectLoanBook.value = loanBooks.value.find(
+        (loanBook) => loanBook.id === id
+      );
+    } else {
+      selectLoanBook.value = undefined;
+    }
+  };
+
   watch(loanBooks.value, () => {
     localStorage.setItem("loanBooks", JSON.stringify(loanBooks.value));
   });
@@ -52,5 +64,7 @@ export const useLibraryStore = () => {
     loanBook,
     loanBooks,
     handleSaveLoanBook,
+    handleSelectLoanBook,
+    selectLoanBook,
   };
 };
